@@ -1,0 +1,35 @@
+@startuml Database Schema
+
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) #x#
+
+table(Users) {
+    primary_key(id)
+    username
+    email
+    password
+    role
+}
+
+table(PhishingURLs) {
+    primary_key(id)
+    foreign_key(user_id)
+    url
+    status
+    trust_score
+    created_at
+}
+
+table(Reports) {
+    primary_key(id)
+    foreign_key(user_id)
+    report_type
+    data
+    generated_at
+}
+
+Users ||--o{ PhishingURLs
+Users ||--o{ Reports
+
+@enduml

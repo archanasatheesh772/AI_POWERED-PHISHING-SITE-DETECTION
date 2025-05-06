@@ -1,0 +1,45 @@
+@startuml PhishAlert System Architecture
+
+!define RECTANGLE class
+
+skinparam backgroundColor transparent
+skinparam handwritten false
+skinparam monochrome true
+
+rectangle "Client Layer" {
+    [Web Browser]
+    [Mobile App]
+}
+
+rectangle "Application Layer" {
+    [URL Validator]
+    [Feature Extractor]
+    [ML Model]
+    [Trust Score Calculator]
+}
+
+database "Data Layer" {
+    [User Database]
+    [URL Database]
+    [Report Database]
+}
+
+rectangle "Admin Layer" {
+    [Admin Dashboard]
+    [Report Generator]
+    [User Management]
+}
+
+[Web Browser] --> [URL Validator]
+[Mobile App] --> [URL Validator]
+[URL Validator] --> [Feature Extractor]
+[Feature Extractor] --> [ML Model]
+[ML Model] --> [Trust Score Calculator]
+[Trust Score Calculator] --> [URL Database]
+
+[Admin Dashboard] --> [Report Generator]
+[Report Generator] --> [Report Database]
+[Admin Dashboard] --> [User Management]
+[User Management] --> [User Database]
+
+@enduml

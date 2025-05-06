@@ -1,0 +1,34 @@
+@startuml URL Check Sequence
+
+actor User
+participant "Web Interface" as UI
+participant "URL Validator" as Validator
+participant "Feature Extractor" as Extractor
+participant "ML Model" as ML
+participant "Database" as DB
+
+User -> UI: Submit URL
+activate UI
+
+UI -> Validator: Validate URL
+activate Validator
+Validator --> UI: URL Valid
+deactivate Validator
+
+UI -> Extractor: Extract Features
+activate Extractor
+Extractor -> ML: Process Features
+activate ML
+ML -> DB: Get Historical Data
+activate DB
+DB --> ML: Return Data
+deactivate DB
+ML --> Extractor: Return Score
+deactivate ML
+Extractor --> UI: Return Analysis
+deactivate Extractor
+
+UI --> User: Display Results
+deactivate UI
+
+@enduml

@@ -1,0 +1,22 @@
+@startsalt
+{
+  Just plain text
+  [Enter URL                     ]
+  [Check URL  ]
+  
+  {^"Analysis Results"}
+  {#
+    * Trust Score: 85/100
+    * Status: Safe
+    * Domain Age: 5 years
+    * SSL Certificate: Valid
+  }
+  
+  {^"Recent Checks"}
+  {#
+    + example1.com | Safe
+    + example2.com | Suspicious
+    + example3.com | Phishing
+  }
+}
+@endsalt
