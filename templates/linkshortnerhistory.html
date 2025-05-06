@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<section class="container py-5">
+    <!-- Filter Options -->
+    <div class="d-flex justify-content-between mb-4">
+        <div>
+            <button class="btn btn-outline-primary filter-btn" onclick="setLayout('grid')">Grid</button>
+            <button class="btn btn-outline-primary filter-btn" onclick="setLayout('vertical')">Vertical</button>
+        </div>
+    </div>
+   <!-- Heading for Link History -->
+   <h2 class="text-center mb-4">Link History</h2>
+    {% if current_user.is_authenticated %}
+        {% if urls %}
+            <div id="url-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                {% for url in urls %}
+                <div class="col mb-4 url-item">
+                    <div class="card border-danger">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0">Link Clicks: {{ url.clicks }}</h5>
+                            <small>Created: {{ url.created_at.strftime('%B %d, %Y') }}</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <img class="img-fluid" src="{{ url_for('generate_qr_code_url', short_url=url.short_url) }}" alt="QR Code">
+                            </div>
+                            <p class="card-text text-truncate">
+                                <strong>Original Link:</strong> {{ url.long_url }}
+                            </p>
+                            <p class="mb-2">
+                                <strong>Shortened Link:</strong>
+                                <a href="{{ url_for('redirect_url', short_url=url.short_url) }}" class="text-decoration-none text-primary" target="_blank">
+                                    {{ host }}{{ url.short_url }}
+                                </a>
+                            </p>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" value="{{ host }}{{ url.short_url }}" id="myInput" readonly>
+                                <button class="btn btn-outline-secondary" onclick="copyToClipboard()">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                <h4>You do not have any URLs yet.</h4>
+                <a href="{{ url_for('home') }}" class="btn btn-primary mt-3">Click to Create</a>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-warning text-center">
+            <h4>Please login to see your URLs.</h4>
+        </div>
+    {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="mt-4">
+                {% for message in messages %}
+                    <div class="alert alert-danger">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</section>
+
+<script>
+    // Function to switch between grid and vertical layout
+    function setLayout(layout) {
+        const container = document.getElementById('url-container');
+        if (layout === 'grid') {
+            container.classList.remove('flex-column');
+            container.classList.add('row', 'row-cols-1', 'row-cols-md-2', 'row-cols-lg-3');
+        } else if (layout === 'vertical') {
+            container.classList.remove('row', 'row-cols-1', 'row-cols-md-2', 'row-cols-lg-3');
+            container.classList.add('d-flex', 'flex-column');
+        }
+    }
+
+    // Copy to clipboard function
+    function copyToClipboard() {
+        const copyText = document.getElementById("myInput");
+        copyText.select();
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            alert("Link copied to clipboard!");
+        });
+    }
+</script>
+
+{% endblock %}

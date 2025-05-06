@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block styles %}
+    <style>
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative;
+        }
+        .spinner-border {
+            display: none;
+        }
+        .searching .spinner-border {
+            display: inline-block;
+        }
+        .searching .btn-search {
+            display: none;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result .alert {
+            font-size: 1.25rem;
+        }
+        .result .table {
+            margin-top: 20px;
+        }
+        .highlight {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .highlight-danger {
+            color: red;
+        }
+        .highlight-warning {
+            color: orange;
+        }
+        .highlight-success {
+            color: green;
+        }
+        .pure-white-bg {
+            color: white !important;
+            background-color: white !important;
+        }
+        .checking-text {
+            font-size: 1.25rem;
+            color: #007bff;
+            animation: fadeInOut 2s infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+    </style>
+    {% endblock %}
+</head>
+
+<body>
+
+{% block content %}
+</div>
+<div class="container">
+
+    <!-- Logo and Description Section -->
+    <div class="text-center mb-5">
+        <a href="/" class="logo">
+            <h1 itemprop="name" class="display-4 font-weight-bold text-primary">PhishAlert</h1>
+        </a>
+        <p itemprop="description" class="lead text-muted">Protect yourself from <strong>phishing attacks</strong> with the help of our <strong>website</strong>. Surf safely with <strong>PhishAlert</strong>.</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg p-4 bg-light search-box">
+                <h3 class="card-title text-center mb-4">Check the Trustworthiness of a URL</h3>
+                <form id="search-form" action="/checklink" method="post">
+                    <div class="input-group input-group-lg">
+                        <input type="text" name="url" class="form-control form-control-lg" placeholder="Enter URL" required />
+                        <button type="submit" class="btn btn-primary btn-lg btn-search">Verify URL</button>
+                    </div>
+                    <div class="text-center mt-3 mb-3">
+                        <div id="checking-text" style="display: none;">
+                            <p class="text-primary font-weight-bold" id="checking-step" style="font-family: 'Arial', sans-serif; font-size: 2.25rem; margin-top: 40px; margin-bottom: 76px;">Searching for model</p>
+                        </div>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center align-items-center pure-white-bg" style="height: auto;">
+                    <video id="searching-video" class="" width="320" height="240" autoplay loop muted style="display: none; margin: -23px 130px; background-color: #dbd8d82b !important; transition: none !important;">
+                        <source src="video/searching.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if output != "NA" %}
+    <div class="result mt-5">
+        {% if output.status == "SUCCESS" %}
+        <div class="alert alert-info">
+            <h5 class="alert-heading">Trust Score</h5>
+            <p>
+                {% if output.trust_score < 60 %}
+                <span class="highlight highlight-danger">Trust Score: {{ output.trust_score }} / 100</span>
+                {% elif output.trust_score < 70 %}
+                <span class="highlight highlight-warning">Trust Score: {{ output.trust_score }} / 100</span>
+                {% else %}
+                <span class="highlight highlight-success">Trust Score: {{ output.trust_score }} / 100</span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="mb-4">
+            <strong>URL</strong>: {{ output.url }} <br>
+            <strong>Message</strong>: {{ output.msg }} <br>
+        </div>
+
+        {% if output.response_status != False %}
+        <div class="container my-4">
+            <h3 class="text-primary mb-4"> Report</h3>
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <strong>Info for Nerds</strong>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Global Rank</td>
+                                    <td>{{ output.rank | default("N/A") }}</td>
+                                </tr>
+                                <tr>
+                                    <td>HTTP Status Code</td>
+                                    <td>{{ output.response_status | default("N/A") }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Domain Age</td>
+                                    <td>{{ output.age | default("N/A") }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Use of URL Shortener</td>
+                                    <td>{% if output.is_url_shortened %} <span class="badge bg-success">YES</span> {% else %} <span class="badge bg-danger">NO</span> {% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td>HSTS Support</td>
+                                    <td>{% if output.hsts_support %} <span class="badge bg-success">YES</span> {% else %} <span class="badge bg-danger">NO</span> {% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td>IP instead of Domain</td>
+                                    <td>{% if output.ip_present %} <span class="badge bg-danger">YES</span> {% else %} <span class="badge bg-success">NO</span> {% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td>URL Redirects</td>
+                                    <td>
+                                        {% if output.url_redirects %}
+                                            <ul class="list-group list-group-flush">
+                                                {% for value in output.url_redirects %}
+                                                <li class="list-group-item">{{ value }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <span class="text-muted">NO</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>IP of Domain</td>
+                                    <td>{{ output.ip | default("N/A") }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Too Long URL</td>
+                                    <td>{% if output.too_long_url %} <span class="badge bg-danger">YES</span> {% else %} <span class="badge bg-success">NO</span> {% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td>Too Deep URL</td>
+                                    <td>{% if output.too_deep_url %} <span class="badge bg-danger">YES</span> {% else %} <span class="badge bg-success">NO</span> {% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td>Whois Information</td>
+                                    <td>
+                                        {% if output.whois %}
+                                            <ul class="list-unstyled">
+                                                <li><strong>Domain Name:</strong> {{ output.whois['Domain Name'] | default("N/A") }}</li>
+                                                <li><strong>Registrar:</strong> {{ output.whois['Registrar'] | default("N/A") }}</li>
+                                                <li><strong>Updated Date:</strong> {{ output.whois['Updated Date'] | default("N/A") }}</li>
+                                                <li><strong>Expiration Date:</strong> {{ output.whois['Expiration Date'] | default("N/A") }}</li>
+                                                <li><strong>State:</strong> {{ output.whois['State'] | default("N/A") }}</li>
+                                                <li><strong>Emails:</strong> {{ output.whois['Emails'] | default("N/A") }}</li>
+                                            </ul>
+                                        {% else %}
+                                            <span class="text-muted">Not Available</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-danger">
+            <strong>Error:</strong> Unable to fetch details for URL: {{ output.url }}<br>
+            <strong>Message:</strong> {{ output.msg }}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    document.getElementById('search-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent immediate submission
+
+        // Show loading elements
+        document.getElementById('checking-text').style.display = 'block'; // Show the loading text
+        document.getElementById('searching-video').style.display = 'block'; // Show the loading video (optional)
+        document.querySelector('.search-box').classList.add('searching'); // Add a class for styling, if needed
+
+        // Define the loading steps
+        const steps = [
+            "Loading pre-defined model...",
+            "Submitting your request...",
+            "Checking the URL...",
+            "Analyzing the input...",
+            "Finalizing results...",
+            "Processing data..."
+                        
+           
+        ];
+
+        let stepIndex = 0;
+        const checkingText = document.getElementById('checking-step'); // Element to display loading steps
+
+        // Update the text every 1 second
+        const interval = setInterval(() => {
+            if (stepIndex < steps.length) {
+                checkingText.textContent = steps[stepIndex]; // Update the text
+                stepIndex++;
+            } else {
+                clearInterval(interval); // Stop the interval after all steps
+                document.getElementById('search-form').submit(); // Submit the form
+            }
+        }, 1000); // Change text every 1 second
+    });
+</script>   
+{% endblock %}
+
+</body>
+
+</html>

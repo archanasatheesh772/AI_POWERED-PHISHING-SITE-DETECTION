@@ -1,0 +1,89 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Advanced Reporting System</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="report-form">
+                <div class="form-group">
+                    <label for="report-type">Report Type</label>
+                    <select id="report-type" class="form-control">
+                        <option value="user_activity">User Activity</option>
+                        <option value="phishing_urls">Phishing URLs</option>
+                        <option value="qr_codes">QR Codes</option>
+                    </select>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="date-range">Date Range</label>
+                    <input type="text" id="date-range" class="form-control" placeholder="YYYY-MM-DD to YYYY-MM-DD">
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Generate Report</button>
+            </form>
+            <div id="report-result" class="mt-5">
+                <!-- Report data will be displayed here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h3>Phishing URLs</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Flagged</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for url in phishing_urls %}
+            <tr>
+                <td>{{ url.url }}</td>
+                <td>{{ url.status }}</td>
+                <td>{{ 'Yes' if url.flagged else 'No' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Audit Logs</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>User</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in audit_logs %}
+            <tr>
+                <td>{{ log.action }}</td>
+                <td>{{ log.user.username }}</td>
+                <td>{{ log.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <h3>Summary</h3>
+        <p><strong>Custom URLs Count:</strong> {{ custom_urls_count }}</p>
+        <p><strong>Short URLs Count:</strong> {{ short_urls_count }}</p>
+        <p><strong>Total Clicks:</strong> {{ total_clicks }}</p>
+    </div>
+<script>
+    document.getElementById('report-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const reportType = document.getElementById('report-type').value;
+        const dateRange = document.getElementById('date-range').value;
+        fetch(`/admin/generate_report?report_type=${reportType}&date_range=${dateRange}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('report-result');
+                resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Generate QR Code{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+
+<section class="hero bg-light py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Generate Your QR Code</h2>
+        <form method="POST">
+            <div class="mb-4">
+                <input type="url" name="long_url" class="form-control form-control-lg" placeholder="Enter the long URL" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Generate QR Code</button>
+        </form>
+    </div>
+</section>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}

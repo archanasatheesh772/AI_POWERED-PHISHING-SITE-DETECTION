@@ -1,0 +1,81 @@
+<!-- safe_preview_form.html -->
+{% extends "base.html" %}
+
+
+
+{% block styles %}
+    
+{% endblock %}
+
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body">
+                        <h1 class="text-center mb-4">Safe URL Preview</h1>
+                        <form method="POST" action="/safe-preview">
+                            <div class="mb-3">
+                                <label for="url" class="form-label">Enter URL for Safe Preview:</label>
+                                <input type="url" class="form-control" id="url" name="url" required placeholder="https://example.com" aria-describedby="urlHelp">
+                                <div id="urlHelp" class="form-text text-muted">Ensure the URL starts with <strong>http://</strong> or <strong>https://</strong>.</div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">Preview URL</button>
+                            </div>
+                        </form>
+
+                        {% if error %}
+                            <div class="alert alert-danger mt-4">{{ error }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+    <!-- Optional: Modal for enhanced UI (for example, after submission) -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">URL Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <strong>Previewing:</strong> <span id="preview-url"></span>
+                    </div>
+                    <iframe src="#" id="previewIframe" style="width:100%; height:500px; border:none;"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // JavaScript for enhanced modal functionality
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let urlInput = document.getElementById('url').value;
+            if (urlInput) {
+                // Update modal content and open it
+                document.getElementById('preview-url').innerText = urlInput;
+                document.getElementById('previewIframe').src = urlInput;
+                var previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+                previewModal.show();
+            }
+        });
+    </script>
+{% endblock %}

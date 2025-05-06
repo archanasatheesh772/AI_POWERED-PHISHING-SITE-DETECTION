@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All in One Tool Box - {% block title%}{% endblock %}</title>
+    <link rel="icon" href="https://res.cloudinary.com/di3bnxzob/image/upload/v1683491900/20230507_151847_fetqqm.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <!--boxicons--yiloc46990@vkr1.com--1234567890-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Poppins:ital,wght@0,400;0,500;0,900;1,100;1,700&display=swap" rel="stylesheet">
+
+    <meta name="description" content="Shortening URLs, Analytics and Customization.">
+    <meta name="keywords" content="All in One Tool Box, URL Shortener, Shorten Links, redr">
+    <meta name="author" content="Noah Useghan">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="generator" content="All in One Tool Box">
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+
+    <meta http-equiv="cache-control" content="no-cache"/>
+
+
+
+    <meta property="og:title" content="All in One Tool Box">
+    <meta property="og:description" content="Shortening URLs, Analytics and Customization.">
+    <meta property="og:image" content="https://res.cloudinary.com/di3bnxzob/image/upload/v1683491900/20230507_151847_fetqqm.jpg">
+    <meta property="og:url" content="https://redr.site/">
+    <meta property="og:site_name" content="All in One Tool Box">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="en_US">
+
+
+    <meta name="twitter:title" content="All in One Tool Box">
+    <meta name="twitter:description" content="Shortening URLs, Analytics and Customization.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/di3bnxzob/image/upload/v1683491900/20230507_151847_fetqqm.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@RedX_13">
+    <meta name="twitter:creator" content="@RedX_13">
+  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ourteam.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/fonts/bootstrap-icons.woff') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/fonts/bootstrap-icons.woff2') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/aos/aos.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/animate.css/animate.min.css') }}">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    
+  <link rel="shortcut icon" href="https://res.cloudinary.com/di3bnxzob/image/upload/v1683491900/20230507_151847_fetqqm.jpg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/indexstyle.css') }}">
+
+
+
+  <style>
+/* CSS */
+.button-57 {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #18181a;
+  color: #18181a;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 15px;
+  padding: 18px 18px 17px;
+  text-decoration: none;
+  cursor: pointer;
+  background: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-57 span:first-child {
+  position: relative;
+  transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 10;
+}
+
+.button-57 span:last-child {
+  color: white;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 100;
+  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translateY(225%) translateX(-50%);
+  height: 14px;
+  line-height: 13px;
+}
+
+.button-57:after {
+  content: "";
+  position: absolute;
+  bottom: -50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  transform-origin: bottom center;
+  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  transform: skewY(9.3deg) scaleY(0);
+  z-index: 50;
+}
+
+.button-57:hover:after {
+  transform-origin: bottom center;
+  transform: skewY(9.3deg) scaleY(2);
+}
+
+.button-57:hover span:last-child {
+  transform: translateX(-50%) translateY(-100%);
+  opacity: 1;
+  transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+}
+
+.button-container {
+  padding: 10px; /* Adjust the padding as needed */
+}
+
+
+
+    /* Custom styling for the images */
+    .image-container {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
+
+    .image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-container:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Custom styling for the download button */
+    .download-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .image-container:hover .download-button {
+        display: block;
+    }
+
+    /* Animation for the download button */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    .download-button:hover {
+        animation: pulse 1s infinite;
+    }
+</style>
+    <meta name="theme-color" content="#ff0000">
+    <meta name="msapplication-navbutton-color" content="#ff0000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ff0000">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+   
+    
+</head>
+<body>
+    
+  <!-- ======= Header ======= -->
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-right">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+        <h1 class=" me-auto me-lg-0"><a href="index.php"> </a></h1>
+
+        <nav id="navbar" class="navbar order-last order-lg-0">
+    <ul class="ml-auto">
+        {% if current_user.is_authenticated %} 
+        <li><a href="{{url_for('about')}}">About</a></li> 
+        <li><a href="{{url_for('link_history')}}">History</a></li> 
+        <li><a href="{{url_for('logout')}}">Logout</a></li>
+        
+        {% else %}
+        
+        <li class="d-md-none"><a href="{{url_for('login')}}">Login</a></li>
+        <li class="d-md-none"><a href="{{url_for('signup')}}">Signup</a></li>
+
+       
+        <li class="d-none d-md-block dropdown"><a>Login<i class="bi bi-chevron-down"></i></a>
+            <ul>
+                <li><a href="{{url_for('login')}}">Login Now</a></li>
+                <li><a href="{{url_for('signup')}}">Sign Up</a></li>
+            </ul>
+        </li>
+        {% endif %}
+
+        
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+</nav>
+
+    </div>
+</header><!-- End Header -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{url_for('static', filename='js/copy.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJjIx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

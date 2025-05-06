@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .login-container {
+        max-width: 458px;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-left: 36%;
+        margin-top: 14%;
+    }
+    .login-container h1 {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+    .btn-primary {
+        background-color: #6c63ff;
+        border-color: #6c63ff;
+    }
+    .btn-primary:hover {
+        background-color: #574bfa;
+        border-color: #574bfa;
+    }
+    .form-text a {
+        color: #6c63ff;
+        text-decoration: none;
+    }
+    .form-text a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+<body class="bg-red">
+
+    {% block content %}
+</div>
+    <section class="vh-100" style="background-color: #9A616D;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem;">
+                        <div class="row g-0">
+                            <div class="col-md-6 col-lg-5 d-none d-md-block">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img2.webp"
+                                     alt="signup form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                            </div>
+                            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                                <div class="card-body p-4 p-lg-5 text-black">
+                                    <form method="POST" action="/signup" class="needs-validation" novalidate>
+                                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                            <span class="h1 fw-bold mb-0">PhishAlert</span>
+                                        </div>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create a new account</h5>
+
+                                        <!-- Username Field -->
+                                        <div class="form-outline mb-4">
+                                            <input type="text" id="username" name="username" class="form-control form-control-lg" required>
+                                            <label class="form-label" for="username">Username</label>
+                                            <div class="invalid-feedback">Please enter a valid username.</div>
+                                        </div>
+
+                                        <!-- Email Field -->
+                                        <div class="form-outline mb-4">
+                                            <input type="email" id="email" name="email" class="form-control form-control-lg" required>
+                                            <label class="form-label" for="email">Email address</label>
+                                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                                        </div>
+
+                                        <!-- Password Field -->
+                                        <div class="form-outline mb-4">
+                                            <input type="password" id="password" name="password" class="form-control form-control-lg" required minlength="6"
+                                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$">
+                                            <label class="form-label" for="password">Password</label>
+                                            <div class="invalid-feedback">Password must be at least 6 characters long, containing a special character and a number.</div>
+                                        </div>
+
+                                        <!-- Confirm Password Field -->
+                                        <div class="form-outline mb-4">
+                                            <input type="password" id="confirm_password" name="confirm_password" class="form-control form-control-lg" required minlength="6">
+                                            <label class="form-label" for="confirm_password">Confirm Password</label>
+                                            <div class="invalid-feedback">Passwords must match.</div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="pt-1 mb-4">
+                                            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+                                        </div>
+                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? 
+                                            <a href="/login" style="color: #393f81;">Login here</a>
+                                        </p>
+                                           </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+
+    {% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,153 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col"> 
+        </div>
+    </div>
+
+    <!-- Phishing URLs Section -->
+    <div class="row mb-5">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title">Phishing URLs</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for url in phishing_urls %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ url.url }} - Status: 
+                            <span class="badge {% if url.status == 'Active' %}bg-success{% else %}bg-warning{% endif %}">
+                                {{ url.status }}
+                            </span> 
+                            - Flagged: 
+                            <span class="badge {% if url.flagged %}bg-danger{% else %}bg-secondary{% endif %}">
+                                {% if url.flagged %}Yes{% else %}No{% endif %}
+                            </span>
+                            {% if not url.flagged %}
+                                 
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- URL Statistics Section -->
+    <div class="row mb-5">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="card-title">URL Statistics</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Custom URLs Created:</strong> {{ custom_urls_count }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Short URLs Created:</strong> {{ short_urls_count }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Total Clicks:</strong> {{ total_clicks }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+
+<!-- Audit Logs Section -->
+<div class="row mb-5">
+    <div class="col">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="card-title mb-0">Audit Logs</h3>
+                <button class="btn btn-light btn-sm" data-bs-toggle="collapse" href="#filterOptions" role="button" aria-expanded="false" aria-controls="filterOptions">
+                    <i class="bi bi-funnel"></i> Filter Logs
+                </button>
+            </div>
+            <div class="collapse" id="filterOptions">
+                <div class="card-body bg-light p-3">
+                    <form method="GET" action="{{ url_for('admin.dashboard') }}">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="userFilter" class="form-label">User</label>
+                                    <input type="text" id="userFilter" name="user" class="form-control" placeholder="Enter username" value="{{ request.args.get('user') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if audit_logs %}
+                                {% for log in audit_logs %}
+                                <tr>
+                                    <td>{{ log.action }}</td>
+                                    <td>{{ log.timestamp }}</td>
+                                    <td>
+                                        <span class="text-info">{{ log.user.username }}</span>
+                                    </td>
+                                    <td>
+                                        <!-- Button to trigger modal -->
+                                        <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#logModal{{ log.id }}">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Modal for Log Details -->
+                                <div class="modal fade" id="logModal{{ log.id }}" tabindex="-1" aria-labelledby="logModalLabel{{ log.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="logModalLabel{{ log.id }}">Log Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Action:</strong> {{ log.action }}</p>
+                                                <p><strong>Timestamp:</strong> {{ log.timestamp }}</p>
+                                                <p><strong>User:</strong> {{ log.user.username }}</p>
+                                                <p><strong>Details:</strong> {{ log.details }}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No results found</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

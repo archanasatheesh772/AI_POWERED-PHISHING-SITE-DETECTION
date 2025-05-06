@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}QR Code Generated{% endblock %}
+
+{% block content %}
+<br>
+<br>
+
+<section class="hero bg-light py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Your QR Code is Ready!</h2>
+        <img src="{{ url_for('static', filename=qr_code_path) }}" alt="QR Code" class="mb-4" style="max-width: 200px;">
+
+        <p class="mb-4">Scan this QR code to access the link.</p> 
+    </div>
+</section>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

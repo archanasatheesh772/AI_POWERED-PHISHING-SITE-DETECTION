@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    {% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <a href="/" class="logo">
+            <h1 itemprop="name" class="display-4 font-weight-bold text-primary">PhishAlert</h1>
+        </a>
+        <p itemprop="description" class="lead text-muted">Protect yourself from <strong>phishing attacks</strong> with the help of our <strong>website</strong>. Surf safely with <strong>Phish Alert</strong>.</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg p-4">
+                <h3 class="card-title text-center mb-4">Check the Trustworthiness of a URL</h3>
+                <form id="search-form" action="/" method="post">
+                    <div class="input-group input-group-lg">
+                        <input type="text" name="url" class="form-control form-control-lg" placeholder="Enter URL" required="required" />
+                        <button type="submit" class="btn btn-primary btn-lg">Verify URL</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <div class="spinner-border text-primary" role="status" id="loading-spinner" style="display: none;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dummy Featured Items (Phishing Threats) Section -->
+    <h3 class="text-center mb-5">Featured Phishing Threats</h3>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Item 1">
+                <div class="card-body">
+                    <h5 class="card-title">Phishing Website A</h5>
+                    <p class="card-text">A dummy phishing website attempting to steal personal information. Check its trust score.</p>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Item 2">
+                <div class="card-body">
+                    <h5 class="card-title">Phishing Website B</h5>
+                    <p class="card-text">Another potential phishing website. Always double-check before entering sensitive information.</p>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Item 3">
+                <div class="card-body">
+                    <h5 class="card-title">Phishing Website C</h5>
+                    <p class="card-text">This phishing site mimics a trusted service to steal your credentials. Always verify before clicking links.</p>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Item 4">
+                <div class="card-body">
+                    <h5 class="card-title">Phishing Website D</h5>
+                    <p class="card-text">Another deceptive website aimed at phishing attacks. Be aware and stay safe.</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if output != "NA" %}
+    <div class="result mt-5">
+
+        {% if output.status == "SUCCESS" %}
+        
+        <div class="alert alert-info">
+            <h5 class="alert-heading">Trust Score</h5>
+            <p>
+                {% if output.trust_score >= 0 and output.trust_score < 60 %}
+                <span class="text-danger" style="font-size: 1.25rem">Trust Score : {{output.trust_score}} / 100</span>
+                {% elif output.trust_score >= 60 and output.trust_score < 70 %}
+                <span class="text-warning" style="font-size: 1.25rem">Trust Score : {{output.trust_score}} / 100</span>
+                {% elif output.trust_score >= 70 and output.trust_score < 90 %}
+                <span class="text-success" style="font-size: 1.25rem">Trust Score : {{output.trust_score}} / 100</span>
+                {% else %}
+                <span class="text-success" style="font-size: 1.25rem">Trust Score : {{output.trust_score}} / 100</span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="mb-4">
+            <strong>URL</strong>: {{output.url}} <br>
+            <strong>Message</strong>: {{output.msg}} <br>
+        </div>
+
+        {% if output.response_status != False %}
+        <div class="table-responsive">
+            <strong>Info for Nerds</strong>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Global Rank</td><td>{{output.rank}}</td></tr>
+                    <tr><td>HTTP Status Code</td><td>{{output.response_status}}</td></tr>
+                    <tr><td>Domain Age</td><td>{{output.age}}</td></tr>
+                    <tr><td>Use of URL Shortener</td><td>{% if output.is_url_shortened == 1%} YES {% else %} NO {% endif %}</td></tr>
+                    <tr><td>HSTS Support</td><td>{% if output.hsts_support == 1%} YES {% else %} NO {% endif %}</td></tr>
+                    <tr><td>IP instead of Domain</td><td>{% if output.ip_present == 1%} YES {% else %} NO {% endif %}</td></tr>
+                    <tr><td>URL Redirects</td><td>{% if output.url_redirects == 0%} NO {% else %}  {% for value in output.url_redirects %} {{ value }} &nbsp;{% endfor %} {% endif %}</td></tr>
+                    <tr><td>IP of Domain</td><td>{{output.ip}}</td></tr>
+                    <tr><td>Too Long URL</td><td>{% if output.too_long_url == 1%} YES {% else %} NO {% endif %}</td></tr>
+                    <tr><td>Too Deep URL</td><td>{% if output.too_deep_url == 1%} YES {% else %} NO {% endif %}</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        {% endif %}
+        {% else %}
+        <div class="alert alert-danger">
+            URL : {{output.url}} <br> Message : {{output.msg}} <br>
+        </div>
+        {% endif %}
+
+    </div>
+    {% endif %}
+    
+</div>
+
+{% endblock %}
+
+<script>
+    document.getElementById('search-form').addEventListener('submit', function() {
+        document.getElementById('loading-spinner').style.display = 'block';
+    });
+</script>
+
+</body>
+
+</html>

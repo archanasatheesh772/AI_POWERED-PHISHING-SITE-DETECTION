@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+<section class="hero bg-light py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">QR Code Analytics</h2>
+        <p><strong>Shortened URL:</strong> <a href="{{ request.host_url }}{{ url.short_url }}" class="text-primary" target="_blank">{{ request.host_url }}{{ url.short_url }}</a></p>
+        <p><strong>Original URL:</strong> {{ url.long_url }}</p>
+        <p><strong>Total Scans:</strong> {{ url.clicks }}</p>
+        <a href="{{ url_for('urlshortner') }}" class="btn btn-primary">Back to URL Shortener</a>
+    </div>
+</section>
+{% endblock %}

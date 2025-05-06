@@ -1,0 +1,24 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<h1>Manage URLs</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>URL</th>
+            <th>Status</th>
+            <th>Flagged</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for url in urls %}
+        <tr>
+            <td>{{ url.id }}</td>
+            <td>{{ url.url }}</td>
+            <td>{{ url.status }}</td>
+            <td>{{ url.flagged }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

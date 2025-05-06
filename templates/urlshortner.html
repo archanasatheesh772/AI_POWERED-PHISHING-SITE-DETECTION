@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}URL Shortener{% endblock %}
+{% block content %}
+<section class="hero bg-light py-5">
+    <div class="container text-center">
+        {% if current_user.is_authenticated %}
+        <div class="hello mb-4">
+            <h3 class="display-4 text-primary">Hello, {{current_user.username|capitalize}}!</h3>
+        </div>
+        <div class="url-form mb-5">
+            <h4 class="mb-4">Create a Shortened URL</h4>
+            <form method="POST" class="d-flex flex-column align-items-center">
+                <div class="mb-3 w-75">
+                    <input type="url" name="long_url" id="long_url" class="form-control form-control-lg" placeholder="Enter your long URL here..." required>
+                </div>
+                <div class="mb-3 w-75">
+                    <input type="text" name="custom_url" id="custom_url" class="form-control form-control-lg" placeholder="Enter a custom URL (optional)">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-75">Shorten URL</button>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="alert-container">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            </form>
+        </div>
+        <hr class="my-5">
+        
+        {% else %}
+        <h5 class="mb-4">Welcome to</h5>
+        <h1 class="mb-3">All In<span class="text-primary">One ToolBox</span></h1>
+        <h4 class="mb-4">Shorten URLs, Analyze Clicks, and Customize Links</h4>
+        <p><span>Get started by signing up for your personalized dashboard.</span></p>
+        <a href="{{url_for('signup')}}" class="btn btn-outline-primary btn-lg">Sign Up</a>
+        {% endif %}
+    </div>
+</section>
+
+<div class="scroll-down text-center mt-5">
+    <i class="ri-chat-1-line" style="font-size: 30px; cursor: pointer;"></i>
+</div>
+
+{% endblock %}
